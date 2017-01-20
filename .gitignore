@@ -1,0 +1,3 @@
+*.pyc
+simple_django_shop/media
+simple_django_shop/local_settings.py
