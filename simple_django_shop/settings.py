@@ -154,3 +154,7 @@ SHOP_IMAGE_DIR = 'shop'
 
 
 from .local_settings import *
+
+
+import django
+django.setup()

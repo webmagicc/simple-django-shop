@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Offer, Images
+from shop.models import Category, Product, Offer, Images
 from mptt.admin import MPTTModelAdmin
 from properties.models import CategoryProperty, ProductProperty
 from filters.models import FilterCategory, ProductFilter, FilterSelect

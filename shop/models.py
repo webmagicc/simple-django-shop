@@ -43,6 +43,10 @@ class Category(MPTTModel, OrderingBaseModel ):
     name = models.CharField(_("Name"),
         default="",
         max_length=250)
+    url = models.CharField(_("Scrapy Url"),
+            default="",
+            blank=True,
+            max_length=250)
     title = models.CharField(_("Title"),
         blank=True,
         default="",
