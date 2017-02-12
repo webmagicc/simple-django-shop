@@ -93,6 +93,7 @@ class CategoryAdmin(MPTTModelAdmin):
              'keywords',
              'image',
              'parent',
+             'url',
              ]
         }),
     ]
