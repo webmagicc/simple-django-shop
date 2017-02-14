@@ -18,7 +18,7 @@ class FilterCategory(OrderingBaseModel):
         verbose_name =_('Category'))
     slug = models.CharField(_("Slug"),
             default="",
-            unique=True,
+            blank=True,
             max_length=250)
     name = models.CharField(_("Name"),
             default="",
@@ -40,7 +40,11 @@ class FilterSelect(OrderingBaseModel):
         verbose_name =_('Filter Category'))
     slug = models.CharField(_("Slug"),
             default="",
-            unique=True,
+            blank=True,
+            max_length=250)
+    url = models.CharField(_("Url"),
+            default="",
+            blank=True,
             max_length=250)
     name = models.CharField(_("Name"),
             default="",
