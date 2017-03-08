@@ -28,21 +28,23 @@ class CategoryProductSpider(scrapy.Spider):
 
 
     def parse(self, response):
-    	category_name = response.xpath("//h1/span/text()").extract_first()
-    	print(category_name)
-    	category = Category.objects.filter(name=category_name).first()
-    	print(category)
-    	for p in response.xpath("//div[@class='product-cell__link']"):
-    		name = p.xpath("div[@class='product-cell__header bn-title']/h2/a/text()").extract_first()
-    		link = p.xpath('div[1]/a/@href').extract_first()
-    		if name and link and category:
-    			slug = slugify(name)
-    			url = "https://www.microsoftstore.ru"+link
-    			prod = Product.objects.filter(name=name, url=url, category=category, slug=slug).first()
-    			if not prod:
-    				prod = Product(name=name, url=url, category=category, slug=slug)
-    				prod.save()
-    		print(name)
-    		print(link)
+        category_name = response.xpath("//h1/span/text()").extract_first()
+        print(category_name)
+        category = Category.objects.filter(name=category_name).first()
+        print(category)
+        for p in response.xpath("//div[@class='product-cell__link']"):
+            name = p.xpath("div[@class='product-cell__header bn-title']/h2/a/text()").extract_first()
+            name = name.strip()
+            link = p.xpath('div[1]/a/@href').extract_first()
+            link = link.strip()
+            if name and link and category:
+                slug = slugify(name)
+                url = "https://www.microsoftstore.ru"+link
+                prod = Product.objects.filter(name=name, url=url, category=category, slug=slug).first()
+                if not prod:
+                    prod = Product(name=name, url=url, category=category, slug=slug)
+                    prod.save()
+            print(name)
+            print(link)
 
         

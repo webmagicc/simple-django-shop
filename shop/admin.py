@@ -130,6 +130,7 @@ class ProductAdmin( admin.ModelAdmin):
              'keywords',
              'image',
              'category',
+             'url',
              'price',]
         }),
     ]
