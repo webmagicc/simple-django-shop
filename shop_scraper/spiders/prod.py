@@ -8,6 +8,7 @@ import uuid
 from urllib.request import urlretrieve
 import time
 from decimal import *
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 def make_upload_path():
     """
@@ -30,9 +31,16 @@ class Prod(scrapy.Spider):
         for item in Product.objects.all().order_by('-updated_at'):
             category = item.category
             if item.url:
-                driver = webdriver.PhantomJS(executable_path=settings.PHANTOMJS)
-                driver.set_window_size(1280, 640)
+                dcap = dict(DesiredCapabilities.PHANTOMJS)
+                dcap["phantomjs.page.settings.userAgent"] = (
+                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/53 "
+                    "(KHTML, like Gecko) Chrome/15.0.87"
+                )
+                driver = webdriver.PhantomJS(executable_path=settings.PHANTOMJS, desired_capabilities=dcap)
+                
+                driver.set_window_size(1320, 940)
                 driver.get(item.url)
+                time.sleep(5)
                 price = driver.find_element_by_xpath('//span[@class="bn-product-baseprice"]').text
                 price = price.replace('\u2009','')
                 price = price.replace('\u2009р.','')
@@ -42,11 +50,14 @@ class Prod(scrapy.Spider):
                 price = price.replace('р','')
                 img = driver.find_element_by_xpath("//div[@class='swiper-slide swiper-slide-active']/img").get_attribute('src')
                 new_image = make_upload_path()
+                print(make_save_name(new_image))
                 if img:
                     urlretrieve(img,new_image)
                     item.image = make_save_name(new_image)
                 if price:
                     item.price = Decimal(price)
+                print(item.image)
+                print(item.price)
                 new_url = item.url+'harakteristiki/'
                 driver.get(new_url)
                 time.sleep(2)
@@ -74,4 +85,5 @@ class Prod(scrapy.Spider):
                                                 value=value,
                                                 product=item)
                             p.save()
+                driver.quit()
 

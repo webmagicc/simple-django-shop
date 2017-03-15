@@ -29,7 +29,7 @@ def make_upload_path(instance, filename, prefix = False):
 
 
 
-class Category(MPTTModel, OrderingBaseModel ):
+class Category(MPTTModel, OrderingBaseModel):
     """
     Category of products
     extend ItemBaseModel
@@ -80,7 +80,7 @@ class Category(MPTTModel, OrderingBaseModel ):
         verbose_name_plural = _('Categories')
 
     class MPTTMeta:
-        order_insertion_by = ['created_at']
+        order_insertion_by = ['name']
 
 
 
@@ -129,6 +129,11 @@ class Product(OrderingBaseModel):
         verbose_name =_('Price'))
     #checker_runtime = models.ForeignKey(SchedulerRuntime, blank=True, null=True, on_delete=models.SET_NULL)
 
+    def pic(self):
+        if self.image:
+            return u'<img src="%s" width="70"/>' % self.image.url
+        else:
+            return '(none)'
     def save(self, *args, **kwargs):
         if self.category:
             super(Product, self).save(*args, **kwargs)

@@ -10,21 +10,28 @@ class CategoryProductSpider(scrapy.Spider):
     def start_requests(self):
         for category in Category.objects.all():
             if category.url:
-                yield scrapy.Request(url=category.url, callback=self.get_pagination)
+                driver = webdriver.PhantomJS(executable_path=settings.PHANTOMJS)
+                driver.set_window_size(1320, 950)
+                driver.get(category.url)
+                time.sleep(5)
+                try:
+                    pagination = driver.find_elements_by_xpath('//ul[@class="pagination"]/li')
+                except:
+                    pagination = ""
+                if len(pagination)>2:
+                    last = pagination[-2].text
+                else:
+                    last = ""
+                if last:
+                    page_list = range(int(last)+1)
+                    for i in page_list:
+                        if i == 0:
+                            continue
+                        url = category.url + "page-"+str(i)+"/"
 
-    def get_pagination(self, response):
-        res = []
-        res.append(response.url)
-        for li in response.xpath("//div[@class='pagination']/ul/li"):
-            a = li.xpath("a[1]/@href").extract_first()
-            print(a)
-            
-            if a:
-                a = "https://www.microsoftstore.ru"+a
-                print(a)
-                yield scrapy.Request(url=a, callback=self.parse)
-            
-        self.parse(response)
+
+
+    
 
 
     def parse(self, response):

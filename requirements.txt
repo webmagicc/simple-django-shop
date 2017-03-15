@@ -11,7 +11,7 @@ cffi==1.9.1
 constantly==15.1.0
 cryptography==1.7.2
 cssselect==1.0.1
-django-mptt==0.8.6
+django-mptt==0.8.7
 django-suit==0.2.23
 idna==2.2
 incremental==16.10.1

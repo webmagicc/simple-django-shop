@@ -114,7 +114,7 @@ class ProductAdmin( admin.ModelAdmin):
                 OfferInline, 
                 ProductFilterInline,
                 ImagesInline]
-    list_display = ('name', 'category', 'published')
+    list_display = ('name', 'pic', 'category', 'published')
     suit_form_tabs = (('general', 'General'), 
         ('offers', 'Offers'),
         ('params', 'Params'), 
