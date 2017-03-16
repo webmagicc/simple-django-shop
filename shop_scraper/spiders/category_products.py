@@ -1,15 +1,19 @@
 from shop.models import Category, Product
 import scrapy
-from slugify import slugify
+from django.utils.text import slugify
 from filters.models import FilterCategory, FilterSelect
+from selenium import webdriver
+from django.conf import settings
+import time
 
 
-class CategoryProductSpider(scrapy.Spider):
-    name = "category_product_spider"
+class CategoryProducts(scrapy.Spider):
+    name = "category_products"
 
     def start_requests(self):
         for category in Category.objects.all():
             if category.url:
+                parse_urls = []
                 driver = webdriver.PhantomJS(executable_path=settings.PHANTOMJS)
                 driver.set_window_size(1320, 950)
                 driver.get(category.url)
@@ -28,30 +32,33 @@ class CategoryProductSpider(scrapy.Spider):
                         if i == 0:
                             continue
                         url = category.url + "page-"+str(i)+"/"
+                        parse_urls.append(url)
+
+                parse_urls.append(category.url)
+                driver.quit()
+                for url in parse_urls:
+                    driver = webdriver.PhantomJS(executable_path=settings.PHANTOMJS)
+                    driver.set_window_size(1320, 950)
+                    driver.get(url)
+                    time.sleep(5)
+                    for p in driver.find_elements_by_xpath('//div[@class="good-i-t"]/a'):
+                        name = p.text
+                        url = p.get_attribute('href')
+                        slug = slugify(name)
+                        prod = Product.objects.filter(category=category, slug=slug, name=name).first()
+                        print("***"+name)
+                        print("***"+url)
+                        print("***"+slug)
+                        if not prod:
+                            prod = Product(category=category, slug=slug, name=name)
+                            prod.save()
+
 
 
 
     
 
 
-    def parse(self, response):
-        category_name = response.xpath("//h1/span/text()").extract_first()
-        print(category_name)
-        category = Category.objects.filter(name=category_name).first()
-        print(category)
-        for p in response.xpath("//div[@class='product-cell__link']"):
-            name = p.xpath("div[@class='product-cell__header bn-title']/h2/a/text()").extract_first()
-            name = name.strip()
-            link = p.xpath('div[1]/a/@href').extract_first()
-            link = link.strip()
-            if name and link and category:
-                slug = slugify(name)
-                url = "https://www.microsoftstore.ru"+link
-                prod = Product.objects.filter(name=name, url=url, category=category, slug=slug).first()
-                if not prod:
-                    prod = Product(name=name, url=url, category=category, slug=slug)
-                    prod.save()
-            print(name)
-            print(link)
+    
 
         
