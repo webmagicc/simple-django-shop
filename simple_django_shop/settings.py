@@ -48,7 +48,15 @@ INSTALLED_APPS = [
     'mptt',
     'properties',
     'filters',
+    'easy_thumbnails',
 ]
+
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'thumb': {'size': (70, 70), 'crop': True},
+    },
+}
 
 SITE_ID = 1
 

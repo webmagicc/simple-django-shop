@@ -49,8 +49,12 @@ class CategoryProducts(scrapy.Spider):
                         print("***"+name)
                         print("***"+url)
                         print("***"+slug)
+
                         if not prod:
-                            prod = Product(category=category, slug=slug, name=name)
+                            prod = Product(category=category, slug=slug, name=name, url=url)
+                            prod.save()
+                        else:
+                            prod.url = url
                             prod.save()
 
 

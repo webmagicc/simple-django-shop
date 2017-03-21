@@ -115,6 +115,8 @@ class ProductAdmin( admin.ModelAdmin):
                 ProductFilterInline,
                 ImagesInline]
     list_display = ('name', 'pic', 'category', 'published')
+    list_filter = ('category',)
+    serch_fields = ['id','name']
     suit_form_tabs = (('general', 'General'), 
         ('offers', 'Offers'),
         ('params', 'Params'), 

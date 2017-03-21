@@ -9,6 +9,9 @@ from urllib.request import urlretrieve
 import time
 from decimal import *
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
+import requests
 
 def make_upload_path():
     """
@@ -28,50 +31,57 @@ class Prod(scrapy.Spider):
     
 
     def start_requests(self):
-        for item in Product.objects.all().order_by('-updated_at'):
+        print("&&&&&&&&&&&&&&&&& START &&&&&&&&&&&&&&&&&&&&&&&")
+        for item in Product.objects.filter(image=''):
+            print("PRODUCT "+ str(item.name))
             category = item.category
             if item.url:
-                dcap = dict(DesiredCapabilities.PHANTOMJS)
-                dcap["phantomjs.page.settings.userAgent"] = (
-                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/53 "
-                    "(KHTML, like Gecko) Chrome/15.0.87"
-                )
-                driver = webdriver.PhantomJS(executable_path=settings.PHANTOMJS, desired_capabilities=dcap)
+                
+                driver = webdriver.PhantomJS(executable_path=settings.PHANTOMJS)
                 
                 driver.set_window_size(1320, 940)
                 driver.get(item.url)
                 time.sleep(5)
-                price = driver.find_element_by_xpath('//span[@class="bn-product-baseprice"]').text
-                price = price.replace('\u2009','')
-                price = price.replace('\u2009р.','')
-                price = price.replace(' ','')
-                price = price.replace('p','')
-                price = price.replace('.','')
-                price = price.replace('р','')
-                img = driver.find_element_by_xpath("//div[@class='swiper-slide swiper-slide-active']/img").get_attribute('src')
+                title = driver.find_element_by_xpath('//title').text
+                print("*** TITLE "+title)
+                try:
+                    price = driver.find_element_by_xpath('//div[@class="good-price"]/strong').text
+                except:
+                    price = 0.00
+                print("*** PRICE "+str(price))
+                
+                img = driver.find_elements_by_xpath("//*[@class='fotorama__img']")[0].get_attribute('src')
                 new_image = make_upload_path()
                 print(make_save_name(new_image))
                 if img:
-                    urlretrieve(img,new_image)
-                    item.image = make_save_name(new_image)
+                    img_temp = NamedTemporaryFile(delete=True)
+                    r = requests.get(img)
+                    img_temp.write(r.content)
+                    img_temp.flush()
+                    item.image.save(new_image.split('/')[-1], File(img_temp), save=True)
+                    #urlretrieve(img,new_image)
+                    #item.image = make_save_name(new_image)
+                    #item.image.path = new_image
                 if price:
                     item.price = Decimal(price)
-                print(item.image)
-                print(item.price)
-                new_url = item.url+'harakteristiki/'
-                driver.get(new_url)
+                
+                
+                driver.find_element_by_xpath("//a[@href='#good-spec-tab']").click()
                 time.sleep(2)
-                for i in driver.find_elements_by_xpath("//div[@class='control-group']"):
+                for i in driver.find_elements_by_xpath("//*[@class='dl-horizontal']/div"):
                     try: 
-                        name = i.find_element_by_xpath("div[1]/span").text
+                        name = i.find_element_by_xpath("dt").text
                     except:
                         name = ""
                     try:
-                        value = i.find_element_by_xpath("div[2]/span").text
+                        value = i.find_element_by_xpath("dd").text
                     except:
                         value = ""
                     name = name.strip()
                     value = value.strip()
+                    print("*** NAME PROP "+name)
+                    print("*** VALUE PROP "+value)
+
                     if name and value:
                         cp = CategoryProperty.objects.filter(category=category, name=name).first()
                         if not cp:

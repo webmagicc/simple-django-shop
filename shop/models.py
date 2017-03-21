@@ -10,6 +10,7 @@ from simple_django_shop.models import (
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from properties.models import ProductProperty, CategoryProperty
 from filters.models import ProductFilter, FilterCategory
+from easy_thumbnails.files import get_thumbnailer
 
 
 def make_upload_path(instance, filename, prefix = False):
@@ -99,6 +100,11 @@ class Product(OrderingBaseModel):
     name = models.CharField(_("Name"),
         default="",
         max_length=250)
+    sky = models.CharField(_("Sky"),
+        blank=True,
+        default="",
+        db_index=True,
+        max_length=250)
     title = models.CharField(_("Title"),
         blank=True,
         default="",
@@ -127,13 +133,20 @@ class Product(OrderingBaseModel):
         null=True,
         default=0.00,
         verbose_name =_('Price'))
-    #checker_runtime = models.ForeignKey(SchedulerRuntime, blank=True, null=True, on_delete=models.SET_NULL)
+    promo = models.BooleanField(
+        _(u'Published'),
+        default=False,
+        help_text=_('Show this product on Home page?'))
+    
 
     def pic(self):
         if self.image:
-            return u'<img src="%s" width="70"/>' % self.image.url
+            thumb_url = get_thumbnailer(self.image)['thumb'].url
+            return u'<img src="%s" width="70"/>' % thumb_url
         else:
             return '(none)'
+    pic.short_description = u'Большая картинка'
+    pic.allow_tags = True
     def save(self, *args, **kwargs):
         if self.category:
             super(Product, self).save(*args, **kwargs)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import FilterCategory, FilterSelect
+from .models import FilterCategory, FilterSelect, ProductFilter
 
 
 
@@ -36,3 +36,8 @@ class FilterSelectAdmin(admin.ModelAdmin):
         return {
             'slug': ('name',)
         }
+
+
+@admin.register(ProductFilter)
+class ProductFilterAdmin(admin.ModelAdmin):
+    pass
