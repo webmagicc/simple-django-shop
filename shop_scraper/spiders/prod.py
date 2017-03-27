@@ -32,7 +32,7 @@ class Prod(scrapy.Spider):
 
     def start_requests(self):
         print("&&&&&&&&&&&&&&&&& START &&&&&&&&&&&&&&&&&&&&&&&")
-        for item in Product.objects.filter(image=''):
+        for item in Product.objects.all():
             print("PRODUCT "+ str(item.name))
             category = item.category
             if item.url:
@@ -49,19 +49,21 @@ class Prod(scrapy.Spider):
                 except:
                     price = 0.00
                 print("*** PRICE "+str(price))
+
+                if not item.image:
                 
-                img = driver.find_elements_by_xpath("//*[@class='fotorama__img']")[0].get_attribute('src')
-                new_image = make_upload_path()
-                print(make_save_name(new_image))
-                if img:
-                    img_temp = NamedTemporaryFile(delete=True)
-                    r = requests.get(img)
-                    img_temp.write(r.content)
-                    img_temp.flush()
-                    item.image.save(new_image.split('/')[-1], File(img_temp), save=True)
-                    #urlretrieve(img,new_image)
-                    #item.image = make_save_name(new_image)
-                    #item.image.path = new_image
+                    img = driver.find_elements_by_xpath("//*[@class='fotorama__img']")[0].get_attribute('src')
+                    new_image = make_upload_path()
+                    print(make_save_name(new_image))
+                    if img:
+                        img_temp = NamedTemporaryFile(delete=True)
+                        r = requests.get(img)
+                        img_temp.write(r.content)
+                        img_temp.flush()
+                        item.image.save(new_image.split('/')[-1], File(img_temp), save=True)
+                        #urlretrieve(img,new_image)
+                        #item.image = make_save_name(new_image)
+                        #item.image.path = new_image
                 if price:
                     item.price = Decimal(price)
                 
