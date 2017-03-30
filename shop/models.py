@@ -137,6 +137,20 @@ class Product(OrderingBaseModel):
         _(u'Published'),
         default=False,
         help_text=_('Show this product on Home page?'))
+
+    def get_filters(self):
+        res = {}
+        category = self.category
+        for fp in ProductFilter.objects.filter(product=self):
+            name = fp.filter_category.name
+            selects = []
+            for s in fp.values.all():
+                selects.append(s.name)
+            res.update({name:selects})
+        return res
+            
+
+
     
 
     def pic(self):

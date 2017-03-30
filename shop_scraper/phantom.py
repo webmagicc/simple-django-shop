@@ -9,7 +9,6 @@ def get_driver():
         #'--proxy=proxy.crawlera.com:8010',
         #'--proxy-auth=XXXXXXXXXXX:XXXXXXXXXXXXXX',
         #'--proxy-type=http',
-        '--load-images=false',
         '--ssl-protocol=any',
         '--load-images=false',
         '--webdriver-logfile=phantom.log',
