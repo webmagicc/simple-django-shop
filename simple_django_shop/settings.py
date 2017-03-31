@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'properties',
     'filters',
     'easy_thumbnails',
+    'simple_django_shop',
 ]
 
 

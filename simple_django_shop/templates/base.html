@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+	  <!--Import Google Icon Font-->
+	  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	  <!--Import materialize.css-->
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+	  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+
+	  <!--Let browser know website is optimized for mobile-->
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body>
+
+	<nav>
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">Logo</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="sass.html">Sass</a></li>
+        <li><a href="badges.html">Components</a></li>
+        <li><a href="collapsible.html">Javascript</a></li>
+        <li><a href="mobile.html">Mobile</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="sass.html">Sass</a></li>
+        <li><a href="badges.html">Components</a></li>
+        <li><a href="collapsible.html">Javascript</a></li>
+        <li><a href="mobile.html">Mobile</a></li>
+      </ul>
+    </div>
+  </nav>
+
+	<ul id="slide-out" class="side-nav fixed">
+	    <li>
+	    	<img class="responsive-img logo" src="{% static 'images/logo.png' %}">
+	    </li>
+	    <li><i class="material-icons dp48">label_outline</i> Category</li>
+	    <li><a href="#!">Second Link</a></li>
+	    <li><div class="divider"></div></li>
+	    <li><a class="subheader">Subheader</a></li>
+	    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+	</ul>
+  <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+	  <!--Import jQuery before materialize.js-->
+	  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+	  <script src="{% static 'js/function.js' %}" type="text/javascript" charset="utf-8" async defer></script>
+
+	</body>
+</html>
+        

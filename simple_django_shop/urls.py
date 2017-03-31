@@ -22,8 +22,9 @@ from shop import views as shop_views
 
 urlpatterns = [
 	url(r'^$', shop_views.HomeView.as_view(), name='home'),
-	url(r'^$', shop_views.CategoryView.as_view(), name='category'),
+	
     url(r'^admin/', admin.site.urls),
+    url(r'^(?P<slug>[\w-]+)$', shop_views.CategoryView.as_view(), name='category'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
