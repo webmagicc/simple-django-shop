@@ -7,7 +7,7 @@ from simple_django_shop.models import (
     OrderingBaseModel,
     )
 from django.utils.encoding import python_2_unicode_compatible, force_text
-
+from slugify import slugify
 
 
 
@@ -26,6 +26,12 @@ class FilterCategory(OrderingBaseModel):
 
     def __str__(self):
         return self.name
+
+    def save(self):
+        if not self.slug:
+            self.slug = slugify(self.name)
+            
+        super(FilterCategory, self).save()
 
     class Meta:
         verbose_name = _('Filter Category')

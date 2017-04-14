@@ -11,6 +11,7 @@ from django.utils.encoding import python_2_unicode_compatible, force_text
 from properties.models import ProductProperty, CategoryProperty
 from filters.models import ProductFilter, FilterCategory
 from easy_thumbnails.files import get_thumbnailer
+from slugify import slugify
 
 
 def make_upload_path(instance, filename, prefix = False):
@@ -143,10 +144,14 @@ class Product(OrderingBaseModel):
         category = self.category
         for fp in ProductFilter.objects.filter(product=self):
             name = fp.filter_category.name
+            if not fp.filter_category.slug:
+                fp.filter_category.slug = slugify(name)
+                fp.filter_category.save()
+            slug = fp.filter_category.slug
             selects = []
             for s in fp.values.all():
                 selects.append(s.name)
-            res.update({name:selects})
+            res.update({slug:selects})
         return res
             
 

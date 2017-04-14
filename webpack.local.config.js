@@ -27,6 +27,7 @@ config.entry = {
 config.output.publicPath = 'http://' + ip + ':3000' + '/assets/bundles/'
 
 // Add HotModuleReplacementPlugin and BundleTracker plugins
+/*
 config.plugins = config.plugins.concat([
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoErrorsPlugin(),
@@ -38,6 +39,7 @@ config.plugins = config.plugins.concat([
   }}),
 
 ])
+*/
 
 // Add a loader for JSX files with react-hot enabled
 config.module.loaders.push(

@@ -17,7 +17,9 @@ class FilterSelectInline(admin.TabularInline):
 
 @admin.register(FilterCategory)
 class FilterCategoryAdmin(admin.ModelAdmin):
-    inlines = [FilterSelectInline,]
+    inlines = [FilterSelectInline, ]
+    list_display = ('name','slug', 'published')
+    list_editable = ('published',)
     
     def get_prepopulated_fields(self, request, obj=None):
         # can't use `prepopulated_fields = ..` because it breaks the admin validation

@@ -24,7 +24,7 @@ urlpatterns = [
 	url(r'^$', shop_views.HomeView.as_view(), name='home'),
 	
     url(r'^admin/', admin.site.urls),
-    url(r'^(?P<slug>[\w-]+)$', shop_views.CategoryView.as_view(), name='category'),
+    url(r'^(?P<slug>[_0-9a-zA-Z-]+)/$', shop_views.CategoryView.as_view(), name='category'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
