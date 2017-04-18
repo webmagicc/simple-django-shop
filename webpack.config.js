@@ -24,7 +24,8 @@ module.exports = {
     fs: "empty"
   },
   resolve: {
-    extensions: [ '.js', '.jsx'],
+    modules: ['node_modules/'],
+    extensions: [".webpack.js", ".web.js", '.js', '.jsx', ".json"],
     alias: {
       'react': path.join(__dirname, 'node_modules', 'react')
     }
@@ -36,7 +37,8 @@ module.exports = {
     loaders: [{ 
       test: /\.jsx?$/, 
       exclude: /node_modules/,
-       loaders: ['react-hot', 'babel'] 
+       loaders: ['react-hot', 'babel']
+
     }] 
   }
 }

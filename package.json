@@ -40,10 +40,11 @@
     "redux-devtools": "^3.3.2",
     "redux-thunk": "^2.2.0",
     "searchkit": "^0.10.1",
+    "shebang-loader": "0.0.1",
     "webpack-dev-server": "^2.4.2"
   },
   "devDependencies": {
-    "webpack": "^2.3.2",
+    "webpack": "^2.2.1",
     "webpack-bundle-tracker": "^0.2.0"
   }
 }
