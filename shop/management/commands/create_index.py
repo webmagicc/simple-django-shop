@@ -25,11 +25,13 @@ class Command(BaseCommand):
                 'title':p.title,
                 'image':image,
                 'slug':p.slug,
+                'created_at':p.created_at,
+                'updated_at':p.updated_at,
             }
             filters = p.get_filters()
             for key in filters:
                 doc[key] = filters[key]
-            res = es.index(index=slug, doc_type='prod', id=p.id, body=doc)
+            res = es.index(index='products', doc_type=slug, id=p.id, body=doc)
             print("***********************")
             print(doc)
             print(res)
