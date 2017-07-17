@@ -37517,7 +37517,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 //const host = "http://demo.searchkit.co/api/movies"
-var host = "http://localhost:9200/products/" + window.category;
+var host = "http://localhost:9200/products";
 var sk = new _searchkit2.default.SearchkitManager(host, {});
 var Hits = _searchkit2.default.Hits;
 
@@ -37534,15 +37534,14 @@ var MovieHit = function (_React$Component) {
     key: "render",
     value: function render() {
       var result = this.props.result;
-      var url = '/' + window.category + '/' + result._source.slug;
-      var img = 'http://fabro.com.ua' + result._source.image;
+      var url = "/tablets/" + result._source.slug;
       return _react2.default.createElement(
         "div",
         { className: this.props.bemBlocks.item().mix(this.props.bemBlocks.container("item")) + " col s12 m4", key: result._id },
         _react2.default.createElement(
           "a",
           { href: url, target: "_blank" },
-          _react2.default.createElement("img", { className: this.props.bemBlocks.item("poster"), src: img, width: "200" }),
+          _react2.default.createElement("img", { className: this.props.bemBlocks.item("poster"), src: result._source.image, width: "200" }),
           _react2.default.createElement(
             "div",
             { className: this.props.bemBlocks.item("title") },
@@ -48449,4 +48448,4 @@ module.exports = function (str) {
 
 /***/ })
 ],[522]);
-//# sourceMappingURL=Main.js.map
+//# sourceMappingURL=Main-c9bea064011da70a9dc7.js.map

@@ -10,7 +10,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         es = Elasticsearch()
-        for p in Product.objects.all():
+        count = 0
+        for p in Product.objects.all().order_by('id')[4000:]:
+            a = es.search(index='products',body={"query": {"match": {"product_id":p.id}}})
+            
             if p.category:
                 slug = p.category.slug
             else:
@@ -19,8 +22,10 @@ class Command(BaseCommand):
                 image = p.image.url
             else:
                 image = ''
+            count += 1
             doc = {
                 'name':p.name,
+                'product_id':p.id,
                 'price':p.price,
                 'title':p.title,
                 'image':image,
@@ -31,8 +36,9 @@ class Command(BaseCommand):
             filters = p.get_filters()
             for key in filters:
                 doc[key] = filters[key]
-            res = es.index(index='products', doc_type=slug, id=p.id, body=doc)
+            
+            res = es.index(index='products', doc_type=slug,  body=doc)
             print("***********************")
-            print(doc)
-            print(res)
+            print("prod id "+ str(p.id))
+            print("count "+str(count))
             print("***********************")

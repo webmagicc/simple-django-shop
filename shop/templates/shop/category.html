@@ -8,6 +8,18 @@
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/searchkit/0.10.0/theme.css">
 
 <div id="app"></div>
+
+<script >
+	window.category = '{{object.slug}}';
+	window.filters = [];
+	{% for f in object.get_filters %}
+	window.filters.push({
+		name:'{{f.name}}',
+		slug:'{{f.slug}}'
+	});
+	{% endfor %}
+</script>
 {% render_bundle 'vendors' %}
 {% render_bundle 'Main' %}
+
 {% endblock content %}

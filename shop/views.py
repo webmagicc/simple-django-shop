@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView
-from .models import Product
+from django.views.generic.detail import DetailView
+from .models import Product, Category
 
 class HomeView(ListView):
 	model = Product
@@ -8,7 +9,8 @@ class HomeView(ListView):
 	template_name = 'shop/home.html'
 
 
-class CategoryView(ListView):
-	model = Product
-	queryset = Product.objects.all()
+class CategoryView(DetailView):
+	model = Category
+	queryset = Category.objects.all()
 	template_name = 'shop/category.html'
+	

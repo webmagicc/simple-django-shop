@@ -42,6 +42,10 @@ class ProductFilterForm(ModelForm):
             if i.filter_category:
                 self.fields["values"].queryset =\
                  FilterSelect.objects.filter(filter_category=i.filter_category)
+            else:
+                self.fields["values"].queryset =\
+                 FilterSelect.objects.all()[:1]
+
     class Meta:
         model = ProductFilter
         fields = '__all__'

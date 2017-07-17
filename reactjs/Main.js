@@ -24,21 +24,21 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 //const host = "http://demo.searchkit.co/api/movies"
-const host = "http://localhost:9200/tablets"
+const host = "http://localhost:9200/products/" + window.category
 const sk = new Searchkit.SearchkitManager(host, {})
 const Hits = Searchkit.Hits
-
 
 
 class MovieHit extends React.Component {
   
   render() {
     const result = this.props.result;
-        let url = "/tablets/" + result._source.slug
+        let url = '/' + window.category + '/' + result._source.slug
+        let img = 'http://fabro.com.ua' + result._source.image
         return (
             <div className={this.props.bemBlocks.item().mix(this.props.bemBlocks.container("item")) + " col s12 m4"} key={result._id}>
                 <a href={url} target="_blank">
-                    <img className={this.props.bemBlocks.item("poster")} src={result._source.image} width="200" />
+                    <img className={this.props.bemBlocks.item("poster")} src={img} width="200" />
                     <div className={this.props.bemBlocks.item("title")}>{result._source.name}</div>
                 </a>
             </div>

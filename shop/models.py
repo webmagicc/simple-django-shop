@@ -72,6 +72,9 @@ class Category(MPTTModel, OrderingBaseModel):
         default="",
         verbose_name=_('Image'))
 
+    def get_filters(self):
+        return FilterCategory.objects.filter(category=self).order_by('ordering')
+
     
 
     def __str__(self):
@@ -138,6 +141,8 @@ class Product(OrderingBaseModel):
         _(u'Published'),
         default=False,
         help_text=_('Show this product on Home page?'))
+    description = models.TextField(blank=True,)
+    full_text = models.TextField(blank=True,)
 
     def get_filters(self):
         res = {}
@@ -160,8 +165,9 @@ class Product(OrderingBaseModel):
 
     def pic(self):
         if self.image:
-            thumb_url = get_thumbnailer(self.image)['thumb'].url
-            return u'<img src="%s" width="70"/>' % thumb_url
+            return u'<img src="https://fabro.com.ua/media/%s" width="70"/>' % self.image
+            #thumb_u#
+            #return u'<img src="%s" width="70"/>' % thumb_url
         else:
             return '(none)'
     pic.short_description = u'Большая картинка'

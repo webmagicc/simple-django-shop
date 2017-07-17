@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'simple_django_shop',
     'webpack_loader',
+    'old',
 ]
 
 

@@ -10,8 +10,8 @@ module.exports = {
     vendors: ['react'],
   },
   output: {
-      path: path.resolve('./simple_django_shop/static/bundles/local/'),
-      filename: "[name]-[hash].js"
+      path: path.resolve('./simple_django_shop/static/bundles/'),
+      filename: "Main.js"
   },
   watch:NODE_ENV == "development",
   devtool:"source-map",

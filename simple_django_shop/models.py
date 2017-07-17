@@ -10,9 +10,11 @@ class BaseModel(models.Model):
     """
     created_at = models.DateTimeField(
         auto_now_add=True,
+        null=True,
         verbose_name=_(u'Creation date'))
     updated_at = models.DateTimeField(
         auto_now=True,
+        null=True,
         verbose_name=_(u'Modification date'))
 
     objects = models.Manager()
