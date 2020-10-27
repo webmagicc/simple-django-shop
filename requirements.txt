@@ -2,7 +2,7 @@ appdirs==1.4.0
 attrs==16.3.0
 cffi==1.9.1
 constantly==15.1.0
-cryptography==1.7.2
+cryptography==3.2
 cssselect==1.0.1
 Django==1.10.5
 django-mptt==0.8.7
